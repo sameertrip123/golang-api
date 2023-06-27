@@ -33,4 +33,19 @@ The REST API endpoints and their usage example is described below.
 
     {"environment":"development","status":"available","version":"1.0.0"}
 
+### Request
+
+`GET /v1/schools/5`
+
+    curl.exe localhost:4000/v1/schools/5
+
+### Response
+
+    HTTP/1.1 200 OK
+    Content-Type: application/json
+    Date: Tue, 27 Jun 2023 11:53:01 GMT
+    Content-Length: 212
+
+    {"id":5,"created_at":"2023-06-27T17:23:01.890541+05:30","name":"ApplTree","level":"High School","contact":"Anna smith","phone":"601-4411","address":"14 Apple tree","mode":["Blended/Hybrid","Online"],"version":1}
+
 
