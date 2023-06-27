@@ -11,6 +11,8 @@ import (
 	"github.com/julienschmidt/httprouter"
 )
 
+type envelope map[string]interface{}
+
 func (app *application) readIDParam(r *http.Request) (int64, error) {
 	// Use the params from the context function to get the request context
 	params := httprouter.ParamsFromContext(r.Context())
@@ -25,9 +27,9 @@ func (app *application) readIDParam(r *http.Request) (int64, error) {
 	return id, nil
 }
 
-func (app *application) writeJSON(w http.ResponseWriter, statusCode int, data interface{}, header http.Header) error {
+func (app *application) writeJSON(w http.ResponseWriter, statusCode int, data envelope, header http.Header) error {
 	// Convert the data into a json object
-	js, err := json.Marshal(data)
+	js, err := json.MarshalIndent(data, "", "\t")
 	if err != nil {
 		return err
 	}

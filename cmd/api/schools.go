@@ -3,8 +3,10 @@
 package main
 
 import (
+	"api/internal/data"
 	"fmt"
 	"net/http"
+	"time"
 )
 
 // createSchoolHandler for the POST request at /v1/schools endpoint
@@ -17,9 +19,26 @@ func (app *application) showSchoolHandler(w http.ResponseWriter, r *http.Request
 	// Get the id and the err from the readIDParam function by passing the request object
 	id, err := app.readIDParam(r)
 	if err != nil {
-		http.NotFound(w, r)
+		app.notFoundResponse(w, r)
 		return
 	}
-	// Display the school id if no errors are found
-	fmt.Fprintf(w, "show the details for the school %d\n", id)
+	// Create a new intance of School struct containing the id we got from the request
+
+	school := data.School{
+		ID:        id,
+		CreatedAt: time.Now(),
+		Name:      "ApplTree",
+		Level:     "High School",
+		Contact:   "Anna smith",
+		Phone:     "601-4411",
+		Address:   "14 Apple tree",
+		Mode:      []string{"Blended/Hybrid", "Online"},
+		Version:   1,
+	}
+
+	err = app.writeJSON(w, http.StatusOK, envelope{"school": school}, nil)
+	if err != nil {
+		app.serverErrorResponse(w, r, err)
+		return
+	}
 }
